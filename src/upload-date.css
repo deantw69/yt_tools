@@ -1,0 +1,26 @@
+ytd-watch-info-text.ytt-has-upload-date #date-text {
+  display: none !important;
+}
+
+ytd-watch-info-text .ytt-upload-date {
+  margin-right: 8px;
+  white-space: nowrap;
+}
+
+ytd-watch-info-text .ytt-neighbors-btn {
+  margin-right: 8px;
+  padding: 0 8px;
+  font: inherit;
+  font-size: 12px;
+  line-height: 20px;
+  color: var(--yt-spec-text-primary, inherit);
+  background: var(--yt-spec-badge-chip-background, rgb(0 0 0 / 0.05));
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+ytd-watch-info-text .ytt-neighbors-btn:hover {
+  background: var(--yt-spec-10-percent-layer, rgb(0 0 0 / 0.1));
+}

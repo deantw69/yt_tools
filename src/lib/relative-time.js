@@ -41,5 +41,23 @@
     return '不到 1 個月';
   }
 
-  ytt.time = { parseAgeMonths, formatAge };
+  // 依發布時間推算 YouTube 會顯示的相對時間（月數，與 parseAgeMonths 同單位，取無條件捨去）
+  function ageFromDate(iso) {
+    const days = (Date.now() - Date.parse(iso)) / 86400000;
+    if (!(days >= 0)) return null;
+    if (days >= 365) return Math.floor(days / 365) * UNIT_MONTHS.year;
+    if (days >= 30) return Math.floor(days / 30) * UNIT_MONTHS.month;
+    if (days >= 7) return Math.floor(days / 7) * UNIT_MONTHS.week;
+    return Math.floor(days) * UNIT_MONTHS.day;
+  }
+
+  // 相對時間的一個刻度（年、月、週、天）
+  function ageUnit(months) {
+    if (months >= 12) return 12;
+    if (months >= 1) return 1;
+    if (months >= UNIT_MONTHS.week) return UNIT_MONTHS.week;
+    return UNIT_MONTHS.day;
+  }
+
+  ytt.time = { parseAgeMonths, formatAge, ageFromDate, ageUnit };
 })();
