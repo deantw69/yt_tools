@@ -4,6 +4,12 @@
   "version": "0.3.0",
   "description": "改善 YouTube 使用體驗：頻道影片列表快速跳到 N 年前、影片頁顯示上傳日期並列出同頻道前後影片。",
   "minimum_chrome_version": "111",
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
   "content_scripts": [
     {
       "matches": [

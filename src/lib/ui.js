@@ -35,13 +35,80 @@
     }));
   }
 
+  const MIN_W = 260;
+  const MIN_H = 160;
+  const MARGIN = 24;
+
+  // 面板固定在右下角，所以從左上角拖曳：往左上拉變大。尺寸依面板 id 記在 localStorage
+  function makeResizable(panel, body, grip, storageKey) {
+    const clamp = (w, h) => [
+      Math.max(MIN_W, Math.min(w, window.innerWidth - MARGIN * 2)),
+      Math.max(MIN_H, Math.min(h, window.innerHeight - MARGIN * 2)),
+    ];
+    const apply = (size) => {
+      if (size) {
+        const [w, h] = clamp(size.w, size.h);
+        body.style.width = `${w}px`;
+        body.style.height = `${h}px`;
+      } else {
+        body.style.width = '';
+        body.style.height = '';
+      }
+      panel.classList.toggle('ytt-sized', !!size);
+    };
+
+    try {
+      apply(JSON.parse(localStorage.getItem(storageKey) || 'null'));
+    } catch {
+      // 讀不到就用預設大小
+    }
+
+    grip.addEventListener('pointerdown', (e) => {
+      if (e.button !== 0) return;
+      e.preventDefault();
+      grip.setPointerCapture(e.pointerId);
+      const rect = body.getBoundingClientRect();
+      const start = { x: e.clientX, y: e.clientY, w: rect.width, h: rect.height };
+      let size = null;
+      const move = (ev) => {
+        size = { w: start.w + (start.x - ev.clientX), h: start.h + (start.y - ev.clientY) };
+        apply(size);
+      };
+      const up = () => {
+        grip.removeEventListener('pointermove', move);
+        grip.removeEventListener('pointerup', up);
+        grip.removeEventListener('pointercancel', up);
+        if (!size) return;
+        try {
+          localStorage.setItem(storageKey, JSON.stringify(size));
+        } catch {
+          // 存不了就只在這次有效
+        }
+      };
+      grip.addEventListener('pointermove', move);
+      grip.addEventListener('pointerup', up);
+      grip.addEventListener('pointercancel', up);
+    });
+
+    grip.addEventListener('dblclick', () => {
+      apply(null);
+      try {
+        localStorage.removeItem(storageKey);
+      } catch {
+        // 忽略
+      }
+    });
+  }
+
   // 浮動面板外框：收合按鈕、標題列、狀態列、內容區
   function createPanel({ id, icon, title, header = [], onClose }) {
     const status = h('div', { class: 'ytt-status' });
     const content = h('div', { class: 'ytt-content' });
+    const grip = h('div', { class: 'ytt-resize', title: '拖曳調整大小，雙擊還原' });
     const panel = h('div', { id, class: 'ytt-panel' },
       h('button', { class: 'ytt-toggle', title, onclick: () => panel.classList.remove('ytt-collapsed') }, icon),
       h('div', { class: 'ytt-body' },
+        grip,
         h('div', { class: 'ytt-row' },
           ...header,
           h('button', {
@@ -52,6 +119,7 @@
         status,
         content));
     document.body.appendChild(panel);
+    makeResizable(panel, panel.querySelector('.ytt-body'), grip, `ytt-size:${id}`);
     return {
       panel,
       content,

@@ -32,6 +32,10 @@ Token 格式屬於未公開格式：`PT:` 那段必須用 URL-safe base64，細�
 
 定位方式：用發布日期推算 YouTube 會顯示的相對時間（例如「7 年前」），先在上傳播放清單找到該刻度的起點，再逐頁平行比對影片 ID。一般頻道約 1 秒，BBC News 這種上萬部影片的頻道約 2 秒。先找 `UULF`（直播影片找 `UULV`），找不到再找含 Shorts 的完整清單 `UU`。
 
+### 面板大小
+
+兩個浮動面板都可以拖曳左上角的斜線調整大小，往左上拉變大；雙擊斜線還原預設大小。尺寸依面板分別記在 `localStorage`。
+
 ## 安裝（開發版）
 
 1. 開啟 `chrome://extensions`。
@@ -43,6 +47,7 @@ Token 格式屬於未公開格式：`PT:` 那段必須用 URL-safe base64，細�
 
 ```
 manifest.json
+icons/                  # 擴充套件圖示：icon.svg 為原始檔，PNG 由它輸出 16/32/48/128
 src/
   lib/
     relative-time.js    # 相對時間（「5 年前」）↔ 月數，多語系

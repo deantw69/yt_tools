@@ -30,6 +30,7 @@ html[dark] .ytt-panel {
 }
 
 .ytt-panel .ytt-body {
+  position: relative;
   background: var(--ytt-bg);
   border: 1px solid var(--ytt-border);
   border-radius: 12px;
@@ -100,6 +101,50 @@ html[dark] .ytt-panel {
 
 .ytt-panel.ytt-collapsed .ytt-body {
   display: none;
+}
+
+/* ---- 調整大小：左上角拖曳 ---- */
+
+.ytt-panel .ytt-resize {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 16px;
+  height: 16px;
+  cursor: nwse-resize;
+  touch-action: none;
+  border-top-left-radius: 12px;
+  background: linear-gradient(135deg, var(--ytt-muted) 0 2px, transparent 2px 5px, var(--ytt-muted) 5px 6px, transparent 6px) no-repeat 4px 4px / 8px 8px;
+  opacity: 0.5;
+}
+
+.ytt-panel .ytt-resize:hover {
+  opacity: 1;
+}
+
+.ytt-panel.ytt-sized:not(.ytt-collapsed) .ytt-body {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.ytt-panel.ytt-sized .ytt-content,
+.ytt-panel.ytt-sized .ytt-results {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+}
+
+.ytt-panel.ytt-sized .ytt-results[hidden] {
+  display: none;
+}
+
+.ytt-panel.ytt-sized .ytt-list {
+  flex: 1;
+  min-height: 0;
+  max-height: none;
 }
 
 /* ---- 影片列表 ---- */
