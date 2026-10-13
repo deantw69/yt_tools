@@ -1,0 +1,16 @@
+{
+  "manifest_version": 3,
+  "name": "YT Tools",
+  "version": "0.2.0",
+  "description": "改善 YouTube 使用體驗：頻道影片列表快速跳到 N 年前的影片。",
+  "minimum_chrome_version": "111",
+  "content_scripts": [
+    {
+      "matches": ["https://www.youtube.com/*"],
+      "js": ["src/lib/relative-time.js", "src/lib/innertube.js", "src/jump-to-date.js"],
+      "css": ["src/jump-to-date.css"],
+      "run_at": "document_idle",
+      "world": "MAIN"
+    }
+  ]
+}
