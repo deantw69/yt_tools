@@ -1,4 +1,4 @@
-ytd-watch-info-text.ytt-has-upload-date #date-text {
+ytd-watch-info-text .ytt-hidden-date {
   display: none !important;
 }
 
@@ -11,8 +11,6 @@ ytd-watch-info-text .ytt-neighbors-btn {
   margin-right: 8px;
   padding: 0 8px;
   font: inherit;
-  font-size: 12px;
-  line-height: 20px;
   color: var(--yt-spec-text-primary, inherit);
   background: var(--yt-spec-badge-chip-background, rgb(0 0 0 / 0.05));
   border: none;
@@ -23,4 +21,9 @@ ytd-watch-info-text .ytt-neighbors-btn {
 
 ytd-watch-info-text .ytt-neighbors-btn:hover {
   background: var(--yt-spec-10-percent-layer, rgb(0 0 0 / 0.1));
+}
+
+/* 整串文字的排版後面已有空白 span，不用再留間距 */
+ytd-watch-info-text #info .ytt-neighbors-btn {
+  margin-right: 0;
 }
