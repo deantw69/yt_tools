@@ -15,6 +15,25 @@
     return el;
   }
 
+  // SVG 要用 createElementNS 建，屬性直接 setAttribute
+  function svg(tag, attrs = {}, ...children) {
+    const el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+    for (const [k, v] of Object.entries(attrs)) el.setAttribute(k, v);
+    for (const c of children.flat()) if (c != null) el.append(c);
+    return el;
+  }
+
+  // 日曆疊放大鏡：代表依日期搜尋
+  function dateSearchIcon() {
+    return svg('svg', { class: 'ytt-icon', viewBox: '0 0 24 24', width: '24', height: '24', 'aria-hidden': 'true' },
+      svg('rect', { x: '2.5', y: '4.5', width: '15', height: '14', rx: '2' }),
+      svg('path', { d: 'M2.5 9h15M6.5 2.5v4M13.5 2.5v4' }),
+      // 放大鏡底下先蓋一塊背景色，壓掉日曆的線
+      svg('circle', { class: 'ytt-icon-cutout', cx: '16', cy: '16', r: '5.5' }),
+      svg('circle', { cx: '16', cy: '16', r: '3.5' }),
+      svg('path', { d: 'M18.6 18.6l3 3' }));
+  }
+
   // 用 YouTube 自己的 SPA 導覽開影片，不重新載入整頁
   function navigateToVideo(videoId) {
     const url = `/watch?v=${videoId}`;
@@ -223,5 +242,5 @@
     };
   }
 
-  ytt.ui = { h, navigateToVideo, createPanel, createVideoList };
+  ytt.ui = { h, dateSearchIcon, navigateToVideo, createPanel, createVideoList };
 })();

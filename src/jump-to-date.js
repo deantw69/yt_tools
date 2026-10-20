@@ -182,7 +182,7 @@
 
     const { panel, content, setStatus: set } = ui.createPanel({
       id: 'ytt-jump-panel',
-      icon: '⏪',
+      icon: ui.dateSearchIcon(),
       title: '跳到很久以前的影片',
       header: [h('span', {}, '跳到'), num, unit, go],
     });
@@ -235,6 +235,8 @@
     }
     if (!els) buildPanel();
     els.panel.hidden = false;
+    // 進入頻道列表時預設收合成按鈕，點開再用
+    if (!running) els.panel.classList.add('ytt-collapsed');
     els.fallback.hidden = true;
     els.list.clear();
     if (!running) setStatus('');

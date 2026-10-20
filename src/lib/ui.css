@@ -96,7 +96,22 @@ html[dark] .ytt-panel {
 }
 
 .ytt-panel.ytt-collapsed .ytt-toggle {
-  display: block;
+  display: grid;
+  place-items: center;
+  padding: 0;
+}
+
+.ytt-panel .ytt-icon {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.ytt-panel .ytt-icon .ytt-icon-cutout {
+  fill: var(--ytt-bg);
+  stroke: none;
 }
 
 .ytt-panel.ytt-collapsed .ytt-body {

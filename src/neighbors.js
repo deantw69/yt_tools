@@ -78,7 +78,7 @@
     }
   }
 
-  // 換到其他影片後，面板收合成按鈕（列表保留），標示移到新影片
+  // 從列表點影片換頁後，面板保留，標示移到新影片
   document.addEventListener('yt-navigate-finish', () => {
     if (!els || els.panel.hidden) return;
     const videoId = currentVideoId();
@@ -86,7 +86,6 @@
       close();
       return;
     }
-    els.panel.classList.add('ytt-collapsed');
     if (els.list.setTarget(videoId)) {
       els.list.scrollToTarget();
       els.setStatus('');
