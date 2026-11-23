@@ -22,7 +22,8 @@
         "src/lib/ui.js",
         "src/jump-to-date.js",
         "src/neighbors.js",
-        "src/upload-date.js"
+        "src/upload-date.js",
+        "src/shorts-date.js"
       ],
       "css": [
         "src/lib/ui.css",

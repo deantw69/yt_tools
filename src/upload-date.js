@@ -23,16 +23,6 @@
     return mf?.publishDate || mf?.uploadDate || null;
   }
 
-  function formatDate(iso) {
-    // 只有日期（無時間）時直接用，避免被當成 UTC 而差一天
-    const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso);
-    if (m) return `${m[1]}/${m[2]}/${m[3]}`;
-    const d = new Date(iso);
-    if (Number.isNaN(d.getTime())) return null;
-    const pad = (n) => String(n).padStart(2, '0');
-    return `${d.getFullYear()}/${pad(d.getMonth() + 1)}/${pad(d.getDate())}`;
-  }
-
   // 資訊列有兩種排版：觀看次數與日期分成 #view-count / #date-text（數字會滾動），
   // 或整串放在 #info 裡（「觀看次數：9.2萬次  6 天前  《播放清單》」），此時 #date-text 是空的
   function findDateAnchor(host) {
@@ -112,7 +102,7 @@
     }
     for (let i = 0; i < MAX_TRIES && my === token; i++) {
       const iso = getPublishDate(videoId);
-      const text = iso && formatDate(iso);
+      const text = globalThis.__ytt.time.formatDate(iso);
       if (text && render(text)) {
         watch(text);
         return;

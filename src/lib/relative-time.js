@@ -59,5 +59,17 @@
     return UNIT_MONTHS.day;
   }
 
-  ytt.time = { parseAgeMonths, formatAge, ageFromDate, ageUnit };
+  // 發布時間 → 「2009/10/25」，依本機時區
+  function formatDate(iso) {
+    if (!iso) return null;
+    // 只有日期（無時間）時直接用，避免被當成 UTC 而差一天
+    const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso);
+    if (m) return `${m[1]}/${m[2]}/${m[3]}`;
+    const d = new Date(iso);
+    if (Number.isNaN(d.getTime())) return null;
+    const pad = (n) => String(n).padStart(2, '0');
+    return `${d.getFullYear()}/${pad(d.getMonth() + 1)}/${pad(d.getDate())}`;
+  }
+
+  ytt.time = { parseAgeMonths, formatAge, ageFromDate, ageUnit, formatDate };
 })();

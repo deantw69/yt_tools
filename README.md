@@ -26,6 +26,10 @@ Token 格式屬於未公開格式：`PT:` 那段必須用 URL-safe base64，細�
 
 影片標題下方的資訊列，把「7 年前」這類相對時間換成實際上傳日期，例如 `2009/10/25`。滑鼠移上去仍可看到原本的相對時間。日期取自播放器的 `microformat.publishDate`，依本機時區顯示。
 
+### Shorts 分頁顯示上傳日期
+
+頻道的「Shorts」分頁（`/@handle/shorts` 等）在每部 Short 的觀看次數下方加上上傳日期，例如 `2026/11/22`。Shorts 列表本身沒有日期，所以逐部向 InnerTube `player` 端點查 `microformat.publishDate`，未登入看不到的影片改用 `next` 端點的 `dateText`（同時最多 6 個請求，查過的會快取），捲動載入的新項目也會補上。
+
 ### 同頻道前後影片
 
 日期旁的「⇅ 前後影片」按鈕會開啟面板，列出同頻道在這部影片前後上傳的影片，本片用紅框標示，可上下載入更多。點清單裡的影片會直接換頁，面板保留並把標示移到新影片。
@@ -57,6 +61,7 @@ src/
   jump-to-date.js/.css  # 頻道頁：跳到 N 年前、備援捲動
   neighbors.js          # 影片頁：同頻道前後影片面板
   upload-date.js/.css   # 影片頁：相對時間換成上傳日期、「前後影片」按鈕
+  shorts-date.js        # 頻道 Shorts 分頁：每部 Short 加上上傳日期
 ```
 
 Content scripts 跑在 `MAIN` world（需 Chrome 111+），才讀得到頁面的 `ytcfg`。模組之間透過 `globalThis.__ytt` 共用。YouTube 有 Trusted Types 限制，建 DOM 一律用 `createElement`，不用 `innerHTML`。

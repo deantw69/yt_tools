@@ -103,5 +103,5 @@
     return { videos: parseVideos(json), total: offset === 0 ? parseTotal(json) : null };
   }
 
-  ytt.innertube = { PAGE_SIZE, api, resolveChannelId, fetchPlaylistPage };
+  ytt.innertube = { PAGE_SIZE, api, findAll, resolveChannelId, fetchPlaylistPage };
 })();
